@@ -1,26 +1,42 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mealsapp/models/meal.dart';
 import 'package:mealsapp/models/mealsdetails.dart';
+import 'package:mealsapp/providers/favorite_provider.dart';
+import 'package:mealsapp/providers/filter_provider.dart';
 
-class MealDetailsScreen extends StatelessWidget {
-  const MealDetailsScreen(
-      {super.key, required this.meal, required this.onTogelfav});
+class MealDetailsScreen extends ConsumerWidget {
+  const MealDetailsScreen({
+    super.key,
+    required this.meal,
+  });
 
   final Meal meal;
-  final void Function(Meal meal) onTogelfav;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final favmeals = ref.watch(favmealsprov);
+
+    final isfave=favmeals.contains(meal);
     return Scaffold(
       appBar: AppBar(
         title: Text(meal.title),
         actions: [
           IconButton(
             onPressed: () {
-              onTogelfav(meal);
+              final wasAdded =
+                  ref.read(favmealsprov.notifier).toglemealsfavstats(meal);
+              ScaffoldMessenger.of(context).clearSnackBars();
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  content: Text(
+                    wasAdded ? 'Meal added as a favorite' : 'Meal removed',
+                  ),
+                ),
+              );
             },
-            icon: const Icon(
-              Icons.star,
+            icon:  Icon(isfave?
+              Icons.star:Icons.star_border ,
             ),
           ),
         ],

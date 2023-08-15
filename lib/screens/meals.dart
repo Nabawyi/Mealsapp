@@ -6,18 +6,16 @@ import '../models/meal.dart';
 
 class MealsScreen extends StatelessWidget {
   const MealsScreen(
-      {super.key, required this.meals, this.titel, required this.onTogelfav});
+      {super.key, required this.meals, this.titel,});
 
   final String? titel;
   final List<Meal> meals;
-  final void Function(Meal meal) onTogelfav;
 
   void selectmeal(BuildContext context, Meal meal) {
     Navigator.of(context).push(
       MaterialPageRoute(
         builder: (context) => MealDetailsScreen(
           meal: meal,
-          onTogelfav: onTogelfav,
         ),
       ),
     );

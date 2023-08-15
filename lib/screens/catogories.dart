@@ -7,8 +7,7 @@ import 'package:mealsapp/widgets/categor_grid_item.dart';
 
 class CategoriesScreen extends StatelessWidget {
   const CategoriesScreen(
-      {super.key, required this.onTogelfav, required this.availablemeals});
-  final void Function(Meal meal) onTogelfav;
+      {super.key,  required this.availablemeals});
   final List<Meal> availablemeals;
 
   void _selectCategory(BuildContext context, Category category) {
@@ -22,7 +21,6 @@ class CategoriesScreen extends StatelessWidget {
         builder: ((context) => MealsScreen(
               titel: category.title,
               meals: filteredMeals,
-              onTogelfav: onTogelfav,
             )),
       ),
     );
